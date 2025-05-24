@@ -1,0 +1,6 @@
+@DailyMate_HostAddress = http://localhost:5148
+
+GET {{DailyMate_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
