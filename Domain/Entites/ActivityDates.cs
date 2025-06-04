@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Domain.Entites
@@ -10,6 +11,7 @@ namespace Domain.Entites
     public class ActivityDates:IEntityBase
     {   public Guid Id {  get; set; }
         public ActivityType ActivityType { get; set; } = ActivityType.Bos;
+        [JsonIgnore]
         public ICollection<Habits> habits { get; set; } 
         public ICollection<Tasks> tasks { get; set; }
         public Guid ActivityId { get; set; }
