@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace ApplicationCore.BaseService
 {
-    public abstract class BaseService
+    public abstract class BaseService//Sadece miras alınmalı tek başına kullanılmamalı getuseridnin kullanımını kolaylaştırmalı.
     {   
         protected readonly IHttpContextAccessor _contextAccessor;
         protected BaseService(IHttpContextAccessor httpContextAccessor) 

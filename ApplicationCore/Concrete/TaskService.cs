@@ -112,7 +112,7 @@ namespace ApplicationCore.Concrete
         }
         public async Task<ApiResponse> UpdateTasks(UpdateTaskDtos models,Guid id)
         {
-            if (GetUserId() == null)
+            if (GetUserId() == Guid.Empty)
             {
                 _apiResponse.IsSucces = false;
                 _apiResponse.ErrorMessage.Add("Kullanıcı girişi yapılmamıştır");
@@ -148,7 +148,7 @@ namespace ApplicationCore.Concrete
         }
         public async Task<ApiResponse> DeleteTasks(Guid id)
         {
-            if (GetUserId() == null)
+            if (GetUserId() == Guid.Empty)
             {
                 _apiResponse.IsSucces = false;
                 _apiResponse.ErrorMessage.Add("Kullanıcı girişi yapılmamıştır");
@@ -172,7 +172,7 @@ namespace ApplicationCore.Concrete
         }
         public async Task<ApiResponse> GetTaskCaching()
         {
-            if (GetUserId() == null)
+            if (GetUserId() == Guid.Empty)
             {
                 _apiResponse.IsSucces = false;
                 _apiResponse.ErrorMessage.Add("Kullanıcı girişi yapılmamıştır");

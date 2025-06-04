@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Infrastructure
 {
@@ -42,6 +43,19 @@ namespace Infrastructure
                         },
                         new List<string>()
                     }
+                });
+                options.MapType<DateOnly>(() => new OpenApiSchema
+                {
+                    Type = "string",
+                    Format = "date",
+                    Example = OpenApiAnyFactory.CreateFromJson(@"""2025-06-23""")
+                });
+                options.MapType<DateOnly?>(() => new OpenApiSchema
+                {
+                    Type = "string",
+                    Format = "date",
+                    Nullable = true,
+                    Example = OpenApiAnyFactory.CreateFromJson(@"""2025-06-28""")
                 });
             });
 
