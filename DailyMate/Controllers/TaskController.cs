@@ -39,7 +39,7 @@ namespace DailyMate.Controllers
         }
         [Authorize]
         [HttpPut("UpdateTask")]
-        public async Task<IActionResult> UpdateTask(UpdateTaskDtos models,Guid id)
+        public async Task<IActionResult> UpdateTask([FromBody] UpdateTaskDtos models, [FromQuery] Guid id)
         {
             var result = await _TaskService.UpdateTasks(models,id);
             if (result.IsSucces == true)

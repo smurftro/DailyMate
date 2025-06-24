@@ -98,6 +98,16 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFlutterApp",
+        builder => builder
+            .AllowAnyOrigin() // Geliþtirme sürecinde. Prod'da sadece Flutter URL'sine izin ver!
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
+//builder.WebHost.UseUrls("http://0.0.0.0:5148");
 // ------------- Pipeline -------------
 var app = builder.Build();
 
@@ -115,7 +125,7 @@ app.Use(async (ctx, next) =>
     Console.WriteLine($"?? {ctx.Request.Method} {ctx.Request.Path}");
     await next();
 });
-
+app.UseCors("AllowFlutterApp");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

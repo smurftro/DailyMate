@@ -56,9 +56,12 @@ namespace ApplicationCore.Concrete
                 },
                 UserId = GetUserId(),
             };
+            var user=await _userManager.FindByIdAsync(GetUserId().ToString());
             var result=await _writeRepository.AddAsync(tasks);
             if(await _writeRepository.SaveAsync() > 0)
             {
+                var cacheKey = $"List_Tasks_{user.Id}";
+                _memoryCache.Remove(cacheKey);
                 _apiResponse.IsSucces=true;
                 _apiResponse.HttpStatusCode = System.Net.HttpStatusCode.OK;
                 _apiResponse.result = result;   
@@ -125,12 +128,18 @@ namespace ApplicationCore.Concrete
             {
                 task.Title = models.Title;
                 task.Description = models.Description;
+                if (task.ActivityDates == null)
+                {
+                    task.ActivityDates = new ActivityDates();
+                }
                 task.ActivityDates.StartDate = models.StartDate;
                 task.ActivityDates.EndDate = models.EndDate;
                
                 await _writeRepository.UpdateAsync(task);
                 if(await _writeRepository.SaveAsync() > 0)
                 {
+                    var cacheKey = $"List_Tasks_{user.Id}";
+                    _memoryCache.Remove(cacheKey);
                     _apiResponse.IsSucces = true;
                     _apiResponse.HttpStatusCode = System.Net.HttpStatusCode.OK;
                     return _apiResponse;
@@ -155,11 +164,14 @@ namespace ApplicationCore.Concrete
                 _apiResponse.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                 return _apiResponse;
             }
+            var user=await _userManager.FindByIdAsync(GetUserId().ToString()); 
             if (await _writeRepository.Table.FirstOrDefaultAsync(x => x.Id == id)!=null)
             {
                 var tasks = _writeRepository.Delete(id);
                 if(await _writeRepository.SaveAsync() > 0)
                 {
+                    var cacheKey = $"List_Tasks_{user.Id}";
+                    _memoryCache.Remove(cacheKey);
                     _apiResponse.IsSucces = true;
                     _apiResponse.HttpStatusCode = System.Net.HttpStatusCode.OK;
                     return _apiResponse;
